@@ -67,8 +67,7 @@ ioServer.sockets.on('connection', function(socket) {
 
             var client_message = JSON.parse(message);
             var user_id        = client_message.id,
-                app            = client_message.app,
-                role_type      = client_message.role;
+                app            = client_message.app;
 
             if (!user_id || !app) {
 

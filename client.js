@@ -13,6 +13,7 @@ socket_config = {
 
 var reg_info = {
     'id'   : 1,
+    'app'  : 'impress'
 };
 
 
