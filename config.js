@@ -5,6 +5,7 @@ var path = require('path'),
 var baseConfig = {
     env: process.env.NODE_ENV,
     root: root,
+    debug: true,
 };
 
 var envConfig = {
