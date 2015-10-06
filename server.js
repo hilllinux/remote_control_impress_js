@@ -4,15 +4,12 @@ var io = require('socket.io'),
     clients = {},
     unreg_clients = [];
 
-var utils = require('utility');
-
 /*
  * 打印函数设置
  * 如果debug 有定义，则输出log,
  * 否则无log 输出
  *
  */
-
 var debug = 1;
 function log(msg){
 
@@ -33,7 +30,6 @@ log('SocketIO 开始监听3000端口');
  * nodejs 和 APP 直接的数据统一使用Json 格式;
  *
  */
-
 ioServer.sockets.on('connection', function(socket) {
     log('有新的socket链接:(' + socket.id + ').');
 
@@ -112,13 +108,15 @@ ioServer.sockets.on('connection', function(socket) {
             if (socket.id) {
 
                 delete clients[socket.key];
-                log("用户(id="+socket.id+")已经离线");
+                log("的用户(id="+socket.uid+")已经离线");
 
             }
 
         } catch (error) {
+
             log(error);
             return
+
         }
     });
 
