@@ -4,6 +4,7 @@ var io = require('socket.io'),
     clients = {},
     unreg_clients = [];
 
+var utils = require('utility');
 
 /*
  * 打印函数设置
@@ -37,14 +38,12 @@ ioServer.sockets.on('connection', function(socket) {
     log('有新的socket链接:(' + socket.id + ').');
 
     // 新的 socket 登入，检测是否是已经注册的，否则通知注册；
-    if (!socket.uid) {
-
+    if (!socket.key) {
         log("用户未注册");
         // 将 socket 实例加入到未注册列表中;
         unreg_clients.push(socket);
         // 消息推送到客户端提醒注册；
         socket.emit('reg','{"msg":"unreg"}');
-
     }
 
     // APP 端用户socket 和 client ID 绑定流程；
@@ -53,54 +52,40 @@ ioServer.sockets.on('connection', function(socket) {
         log("收到用户注册请求"+message);
         
         if(socket.uid) { 
-
-            var app = socket.app;
-
-            log("["+socket.app+"]用户("+socket.uid+")已经注册") 
+            log("用户"+socket.id+")已经注册") 
             socket.emit('reg', '{"msg":"connected"}');
-
             return;
-
         }
 
         try {
 
-            var client_message = JSON.parse(message);
-            var user_id        = client_message.id,
-                app            = client_message.app;
+            var msg  = JSON.parse(message);
+            var key  = msg.key;
+            var role = msg.role;
 
-            if (!user_id || !app) {
-
-                log("JSON 格式不完整 2");
+            if (!key || !role) {
+                log("信息不全");
                 return ;
-
             }
 
-            socket.uid = user_id;
-            socket.app = app;
+            socket.key = key;
 
             // 将用户ID 增加到在线列表中
-            if (!clients[app]) clients[app]={};
-            clients[app][user_id]=socket;
+            clients[user_id]=socket;
 
             // 从未注册列表中删除已注册的socket 实例
             var index = unreg_clients.indexOf(socket);
             if (index != -1) {
-
                 unreg_clients.splice(index, 1);
-                log("["+app+"]的用户(id="+socket.uid+")注册成功");
-
+                log("用户(id="+socket.id+")注册成功");
             }
 
             // 消息推送客户端注册成功；
             socket.emit('reg', '{"msg":"connected"}');
 
         } catch (error) {
-
-            log(error);
-            log("APP注册请求的JSON格式不正确");
+            log(error + " : APP注册请求的JSON格式不正确");
             return;
-
         }
 
     });
@@ -110,29 +95,6 @@ ioServer.sockets.on('connection', function(socket) {
     // 缓存中标记 该消息已经送达客户端
     socket.on('rev', function(message){
         log(message)
-
-        try {
-
-            var client_message = JSON.parse(message);
-            var mid      = client_message.mid,
-                app      = client_message.app;
-
-            if (!mid || !app) {
-
-                log("JSON 格式不完整 3");
-                return ;
-
-            }
-
-
-        } catch (error) {
-
-            log(error);
-            log("消息确认请求的JSON格式不正确");
-            return;
-
-        }
-
     });
 
 
@@ -140,25 +102,23 @@ ioServer.sockets.on('connection', function(socket) {
     socket.on('disconnect', function() {
         try {
             // socket 未注册，直接退出逻辑
-            if (!socket.uid || !socket.app) return;
+            if (!socket.key) return;
             // 获取列表中socket
-            var socket_in_list = clients[socket.app][socket.uid]
+            var socket_in_list = clients[socket.key]
 
             // 如果 socket id 不相等，则是新的 socket 进来
             if (socket_in_list.id  && socket_in_list.id != socket.id) return;
 
-            if (socket.uid) {
+            if (socket.id) {
 
-                delete clients[socket.app][socket.uid];
-                log("["+socket.app+"]的用户(id="+socket.uid+")已经离线");
+                delete clients[socket.key];
+                log("用户(id="+socket.id+")已经离线");
 
             }
 
         } catch (error) {
-
             log(error);
             return
-
         }
     });
 

@@ -1,0 +1,27 @@
+{
+  "name": "remote_control_impress_js",
+  "version": "1.0.0",
+  "description": "a app to remote control impress.js as client",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hilllinux/remote_control_impress_js.git"
+  },
+  "keywords": [
+    "remote",
+    "control"
+  ],
+  "author": "wangsongqing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hilllinux/remote_control_impress_js/issues"
+  },
+  "homepage": "https://github.com/hilllinux/remote_control_impress_js#readme",
+  "dependencies": {
+    "utility": "^1.4.0"
+  }
+}
