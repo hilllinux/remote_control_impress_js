@@ -12,8 +12,10 @@ socket_config = {
 }
 
 var reg_info = {
-    'id'   : 1,
-    'app'  : 'impress'
+    'user_id'   : 1,
+    'app'  : 'impress',
+    'key' : 123123,
+    'role' : 'hell',
 };
 
 
@@ -79,3 +81,8 @@ function unreg(){
 }
 
 init_socket();
+
+function arrow_up()
+{
+    socket.emit('control', 'up');
+}

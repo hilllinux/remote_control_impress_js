@@ -4,29 +4,21 @@ var io = require('socket.io'),
     clients = {},
     unreg_clients = [];
 
+var util = require('./util.js');
 /*
  * 打印函数设置
  * 如果debug 有定义，则输出log,
  * 否则无log 输出
  *
  */
-var debug = 1;
 function log(msg){
-
-    if (!debug) return;
-
-    var date = new Date(); 
-    console.info(date+" --> "+msg);
-
+    util.log(msg);
 }
 
 log('SocketIO 开始监听3000端口');
 
 /*
  * Desc:
- * 这个逻辑块主要处理来自 APP 端的消息事件
- * 例如： 注册，消息成功接收等；
- *
  * nodejs 和 APP 直接的数据统一使用Json 格式;
  *
  */
@@ -42,7 +34,6 @@ ioServer.sockets.on('connection', function(socket) {
         socket.emit('reg','{"msg":"unreg"}');
     }
 
-    // APP 端用户socket 和 client ID 绑定流程；
     // 消息格式：{"app":"msd","id":"123"}
     socket.on('reg', function(message) {
         log("收到用户注册请求"+message);
@@ -54,7 +45,6 @@ ioServer.sockets.on('connection', function(socket) {
         }
 
         try {
-
             var msg  = JSON.parse(message);
             var key  = msg.key;
             var role = msg.role;
@@ -67,7 +57,7 @@ ioServer.sockets.on('connection', function(socket) {
             socket.key = key;
 
             // 将用户ID 增加到在线列表中
-            clients[user_id]=socket;
+            clients[key]=socket;
 
             // 从未注册列表中删除已注册的socket 实例
             var index = unreg_clients.indexOf(socket);
@@ -106,14 +96,11 @@ ioServer.sockets.on('connection', function(socket) {
             if (socket_in_list.id  && socket_in_list.id != socket.id) return;
 
             if (socket.id) {
-
                 delete clients[socket.key];
                 log("的用户(id="+socket.uid+")已经离线");
-
             }
 
         } catch (error) {
-
             log(error);
             return
 
@@ -127,7 +114,6 @@ ioServer.sockets.on('connection', function(socket) {
  * 定时器：定时要处理的业务逻辑
  * 定时的时间间隔将作为配置项处理
  */
-
 setInterval(function() { 
     // 通知未注册用户注册
     for(x in unreg_clients) unreg_clients[x].emit("reg",'{"msg":"unreg"}');
