@@ -1,8 +1,7 @@
 var socket     = '';
 var manager    = '';
 
-function log (msg)
-{
+function log (msg) {
     console.log(msg);
 }
 
@@ -15,9 +14,10 @@ var reg_info = {
     'user_id'   : 1,
     'app'  : 'impress',
     'key' : 123123,
-    'role' : 'hell',
+    'role' : 'controller',
 };
 
+function ctl_cmd(cmd) {}
 
 // socket 初始化
 function init_socket() {
@@ -58,31 +58,38 @@ function init_socket() {
         manager.close();
         log(' 重连失败');
     });
-
-    // 推送事件主体功能块解析
-    socket.on('info', function(data){
-        try{
-            var msg = JSON.parse(data);
-            log(data);
-            //switch (msg.opt) {
-            //case 'pay'    : pay(data);             break;
-            //default : log(msg.opt);                break;
-            //}
-
-        } catch (error) {
-            log(error);
-            return
-        }
-    });
+    socket.on('control', function(data) { ctl_cmd(data);});
 }
 
-function unreg(){
+function unreg() {
     socket.emit('reg', JSON.stringify(reg_info));
 }
 
-init_socket();
 
-function arrow_up()
-{
-    socket.emit('control', 'up');
+function send_cmd(cmd) {
+    socket.emit('control', JSON.stringify(cmd));
+}
+
+function control_prev() {
+    var cmd = {
+        'cmd' : 'prev',
+        'data' : '1',
+    }
+    send_cmd(cmd);
+}
+
+function control_next() {
+    var cmd = {
+        'cmd' : 'next',
+        'data' : '1',
+    }
+    send_cmd(cmd);
+}
+
+function control_goto(page) {
+    var cmd = {
+        'cmd' : 'next',
+        'data' : page,
+    }
+    send_cmd(cmd);
 }
