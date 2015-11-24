@@ -6,7 +6,7 @@ function log (msg) {
 }
 
 socket_config = {
-    'server'    : 'http://127.0.0.1:3000',
+    'server'    : 'http://appoint.yimood.com:3000',
     'paltform'  : 'web',
 }
 

@@ -1,12 +1,93 @@
 <html>
     <head>
-        <script src="socket.io.js"></script>
+        <script src="http://7xolbi.com1.z0.glb.clouddn.com/socket.io.js"></script>
         <script src="client.js"></script>
+        <style type="text/css">
+input{
+    width:30%;
+    border:0;
+    font-size:50px;
+    font-family: monospace;
+    color:#1d1f21;
+    background:#F8F8F8;
+    margin-top: 10%;
+    line-height: 100%;
+    text-align: center;
+}
+.input_container {
+    margin:auto;
+    height: 70%;
+}
+body {
+    background:#F8F8F8;
+}
+.arrow-up {  
+    width: 0;   
+    height: 0;   
+    border-left: 100px solid transparent;  /* 左边框的宽 */  
+    border-right: 100px solid transparent; /* 右边框的宽 */  
+    border-bottom: 100px solid #2f2f2f; /* 下边框的长度|高,以及背景色 */  
+    font-size: 0;  
+    line-height: 0;  
+    margin:auto;
+
+}
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-top: 100px solid #2f2f2f;
+    margin:auto;
+}
+.main_box {
+    margin-top : 20%;
+    width : 100%;
+    height: 60%;
+}
+
+.bg {
+    position: absolute;
+    left:0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    overflow:auto;
+}
+
+.control_area {
+    width:100%;
+    height:30%;
+    text-align:center;
+}
+
+.content {
+    width:100%;
+    height:40%;
+    text-align:center;
+}
+        </style>
     </head>
     <body>
-        <h1> hello world</h1>
-        <button onclick='control_next()' >Next</button>
-        <button onclick='control_prev()' >prev</button>
+        <!--<h1> hello world</h1>
+            <button onclick='control_next()' >Next</button>
+            <button onclick='control_prev()' >prev</button>
+        -->
+        <div class='bg'>
+            <div class='main_box'>
+                <div class='control_area'>
+                    <button class='arrow-up' onclick='control_next();'></button>
+                </div>
+                <div class='content'>
+                    <div class='input_container'>
+                        <input id='goto_value' value="0">
+                    </div>
+                </div>
+                <div class='control_area'>
+                    <button class='arrow-down' onclick='control_prev();'></button>
+                </div>
+            </div>
+        </div>
         <script>
 var reg_info = {
     'user_id'   : 1,
@@ -15,6 +96,7 @@ var reg_info = {
     'role' : 'controller',
 };
 init_socket();
+
         </script>
     </body>
 </html>

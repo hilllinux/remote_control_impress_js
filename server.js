@@ -38,7 +38,7 @@ ioServer.sockets.on('connection', function(socket) {
     socket.on('reg', function(message) {
         log("收到用户注册请求"+message);
         
-        if(socket.uid) { 
+        if(socket.key) { 
             log("用户"+socket.id+")已经注册") 
             socket.emit('reg', '{"msg":"connected"}');
             return;
@@ -84,6 +84,7 @@ ioServer.sockets.on('connection', function(socket) {
     });
 
     socket.on('control', function(message){
+        log('收到控制信息：' + message);
         socket.broadcast.emit('control',message)
     });
 
@@ -101,7 +102,7 @@ ioServer.sockets.on('connection', function(socket) {
 
             if (socket.id) {
                 delete clients[socket.key];
-                log("的用户(id="+socket.uid+")已经离线");
+                log("的用户(id="+socket.key+")已经离线");
             }
 
         } catch (error) {
