@@ -49,7 +49,7 @@ ioServer.sockets.on('connection', function(socket) {
             var key  = msg.key;
             var m_key = msg.m_key;
 
-            if (!key || !role) {
+            if (!key || !m_key) {
                 log("信息不全");
                 return ;
             }
