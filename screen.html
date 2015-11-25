@@ -1,0 +1,30 @@
+<html>
+<head></head>
+    <body>
+        <!--<h1> hello world</h1>
+            <button onclick='control_next()' >Next</button>
+            <button onclick='control_prev()' >prev</button>
+        -->
+        <div id='print_qrcode'></div>
+	<script src="socket.io.js"></script>
+	<script src="client.js"></script>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src='jquery.qrcode.min.js'></script>
+	<script>
+	var reg_info = {
+	    'key' : 'ihD8Ce',
+	    'm_key' : '9wU8Lt',
+	};
+	function ctl_cmd(cmd) {
+	    console.log(cmd)
+	}
+	//init_socket();
+	$('#print_qrcode').qrcode({
+		text   : "hello world",
+		width  : 70,
+        height : 70,
+
+	});
+	</script>
+    </body>
+</html>
