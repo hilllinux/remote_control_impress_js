@@ -11,10 +11,8 @@ socket_config = {
 }
 
 var reg_info = {
-    'user_id'   : 1,
-    'app'  : 'impress',
-    'key' : 123123,
-    'role' : 'controller',
+    'key' : 11111,
+    'm_key' : 22222,
 };
 
 function ctl_cmd(cmd) {}

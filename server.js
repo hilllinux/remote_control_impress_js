@@ -87,7 +87,7 @@ ioServer.sockets.on('connection', function(socket) {
     socket.on('control', function(message){
         log('收到控制信息：' + message);
         try {
-            clients[socket.m_key].emit(message);
+            clients[socket.m_key].emit('control', message);
         } catch (error) {
             log(error);
             return
