@@ -47,7 +47,7 @@ ioServer.sockets.on('connection', function(socket) {
         try {
             var msg  = JSON.parse(message);
             var key  = msg.key;
-            var role = msg.role;
+            var m_key = msg.m_key;
 
             if (!key || !role) {
                 log("信息不全");
@@ -55,6 +55,7 @@ ioServer.sockets.on('connection', function(socket) {
             }
 
             socket.key = key;
+            socket.m_key = m_key;
 
             // 将用户ID 增加到在线列表中
             clients[key]=socket;
@@ -85,7 +86,13 @@ ioServer.sockets.on('connection', function(socket) {
 
     socket.on('control', function(message){
         log('收到控制信息：' + message);
-        socket.broadcast.emit('control',message)
+        try {
+            clients[socket.m_key].emit(message);
+        } catch (error) {
+            log(error);
+            return
+        }
+        //socket.broadcast.emit('control',message)
     });
 
 

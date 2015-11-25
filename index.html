@@ -1,6 +1,8 @@
 <html>
     <head>
-        <script src="http://7xolbi.com1.z0.glb.clouddn.com/socket.io.js"></script>
+        <!--<script src="http://7xolbi.com1.z0.glb.clouddn.com/socket.io.js"></script>
+        <script src="http://7xolbi.com1.z0.glb.clouddn.com/client.js"></script>-->
+        <script src="socket.io.js"></script>
         <script src="client.js"></script>
         <style type="text/css">
 input{
@@ -76,7 +78,7 @@ body {
         <div class='bg'>
             <div class='main_box'>
                 <div class='control_area'>
-                    <button class='arrow-up' onclick='control_next();'></button>
+                    <button class='arrow-up' onclick='control_prev();'></button>
                 </div>
                 <div class='content'>
                     <div class='input_container'>
@@ -84,16 +86,15 @@ body {
                     </div>
                 </div>
                 <div class='control_area'>
-                    <button class='arrow-down' onclick='control_prev();'></button>
+                    <button class='arrow-down' onclick='control_next();'></button>
                 </div>
             </div>
         </div>
         <script>
+        var keys = generate_keys();   
 var reg_info = {
-    'user_id'   : 1,
-    'app'  : 'impress',
-    'key' : 3123,
-    'role' : 'controller',
+    'key' : keys.key,
+    'm_key' : keys.m_key,
 };
 init_socket();
 
