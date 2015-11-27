@@ -82,7 +82,7 @@ body {
                 </div>
                 <div class='content'>
                     <div class='input_container'>
-                        <input id='goto_value' value="0">
+                        <input id='goto_value' value="0" onblur='control_goto(this)'>
                     </div>
                 </div>
                 <div class='control_area'>
@@ -91,17 +91,7 @@ body {
             </div>
         </div>
         <script>
-        var keys = generate_keys();   
-        var reg_info = {
-            'key' : keys.key,
-            'm_key' : keys.m_key,
-        };
-        reg_info = {
-            'key' : '9wU8Lt',
-            'm_key' : 'ihD8Ce',
-        };
-        init_socket();
-
+control_init();
         </script>
     </body>
 </html>
