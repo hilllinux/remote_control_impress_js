@@ -1,5 +1,6 @@
 var socket     = '';
 var manager    = '';
+var url = 'http://wangsongqing.gitcafe.io/'
 
 function log (msg) {
     console.log(msg);
@@ -65,7 +66,27 @@ function unreg() {
 
 
 function send_cmd(cmd) {
-    socket.emit('control', JSON.stringify(cmd));
+    try {
+        socket.emit('control', JSON.stringify(cmd));
+    } catch (e) {
+        log(e);
+    }
+}
+
+function control_init() {
+    var args = GetUrlParms();
+    var size = Object.size(args);
+    try {
+        var key = args.key;
+        var m_key = args.m_key;
+        reg_info = {
+            'key' : key,
+            'm_key' : m_key,
+        };
+        init_socket();
+    } catch(e) {
+        console.log(e);
+    }
 }
 
 function control_prev() {
@@ -84,10 +105,10 @@ function control_next() {
     send_cmd(cmd);
 }
 
-function control_goto(page) {
+function control_goto(obj) {
     var cmd = {
         'cmd' : 'next',
-        'data' : page,
+        'data' : obj.value,
     }
     send_cmd(cmd);
 }
@@ -134,4 +155,23 @@ function generate_keys()
 		'key' : randomString(6),
         'm_key' : randomString(6),
 	}
+}
+
+// 工具类，获取参数长度
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+function screen_init()
+{
+    // 随机生成密钥
+    reg_info  = generate_keys();
+    // 连接初始化
+    init_socket();
+    var control_url = url + '?key='+reg_info.m_key+'&m_key='+reg_info.key;
+    return control_url;
 }
