@@ -6,7 +6,7 @@ function log (msg) {
     console.log(msg);
 }
 
-socket_config = {
+var socket_config = {
     'server'    : 'http://appoint.yimood.com:3000',
     'paltform'  : 'web',
 }
